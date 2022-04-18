@@ -7,7 +7,8 @@ The termbar idea came, originally, from [Vetelko][1], but this one is more direc
    - the current group and active window's name, between brackets
    - the number of other open windows in the current group
    - the number of open windows in each group.
-![screenshot of the field detailed above](./screenshot2.png)
+
+   ![screenshot of the field detailed above](./screenshot2.png)
 
 [1]: https://github.com/vetelko/termbar
 [2]: https://www.tumfatig.net/2020/a-simple-shell-status-bar-for-openbsd-and-cwm1/
