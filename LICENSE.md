@@ -1,4 +1,5 @@
-Copyright (c) 4-digit year, Company or Person's Name
+Copyright (c) 2021, gonzalo@x61.sh
+Copyright (c) 2022, Eduardo Lopes <eduol1975@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
