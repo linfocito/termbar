@@ -3,7 +3,7 @@
 ### Introduction
 Termbar is a status bar made only with a xterm window and a shell script. This particular configuration is intended for use with OpenBSD and cwm, with no external dependency, but could be adapted to work in other OS/WM.
 
-The termbar idea came, originally, from [Vetelko][1], but this one is more directly based on the great [implementation by Joel Carnat][2] of [Gonzalo's version][3].
+The termbar idea came, originally, from [Vetelko][1], but this one is more directly based on the great [implementation by Joel Carnat][2] of the [Gonzalo's version][3].
 
 [1]: https://github.com/vetelko/termbar
 [2]: https://www.tumfatig.net/2020/a-simple-shell-status-bar-for-openbsd-and-cwm1/
