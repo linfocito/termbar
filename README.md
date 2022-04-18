@@ -49,7 +49,8 @@ autogroup 0 termbar
 
 To make the process of fitting the sizes to your screen size, there is a `termshim` script, that shows every field represented in its bigger possible lenght, an can be using instead of termbar, as a testbed for the adustments. Just start it with `xterm -name termbar -class termbar -e /home/youruser/bin/termshim` to see how your alterations will behave.
 
-==The instruction in the implementations cited above should be quite useful too and I recommend you to look at them as well.==
+
+* The instruction in the implementations cited above should be quite useful too and I recommend you to look at them as well.
 
 ### Afterword
 Your additions, scripts, functions, size configurations, etc, are very welcomed. Feel free to send them as issues, pull requests, email or twitter DM.
