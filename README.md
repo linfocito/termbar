@@ -3,10 +3,14 @@
 ### Introduction
 Termbar is a status bar made only with a xterm window and a shell script. This particular configuration is intended for use with OpenBSD and cwm, with no external dependency, but could be adapted to work in other OS/WM.
 
-The termbar idea came, originally, from [Vetelko](https://github.com/vetelko/termbar), but this one have been grown off the great [implementation by Joel Carnat](https://www.tumfatig.net/2020/a-simple-shell-status-bar-for-openbsd-and-cwm1/) of [Gonzalo's](https://github.com/gonzalo-/termbar) version.
+The termbar idea came, originally, from [Vetelko][1], but this one is more directly based on the great [implementation by Joel Carnat][2] of [Gonzalo's version][3].
 
-![termbar screenshot](./screenshot0.png)
-![termbar full screen screenshot](./screenshot1.png)
+[1]: https://github.com/vetelko/termbar
+[2]: https://www.tumfatig.net/2020/a-simple-shell-status-bar-for-openbsd-and-cwm1/
+[3]: https://github.com/gonzalo-/termbar
+
+
+![termbar full screen screenshot](./screenshot0.png) ![termbar screenshot](./screenshot1.png)
 
 ### Instructions:
 - Make the `termbar` script executable. The script uses native OpenBSD command to extract and format informations via functions. Then it loops into calling those functions, printing the whole result and pausing for 0.5s. The formatting should be adjusted to fit your screen size (the script here is tuned for a 1280x800 monitor) and the pause can be set to fit your preference.
@@ -22,14 +26,16 @@ termbar*saveLines: 0
 termbar*scrollBar: false
 termbar*title: termbar
 ```
-   For the glyphs, a font that provides them must be used. [Nerdfonts](https://www.nerdfonts.com) will do well.
+   For the glyphs, a font that provides them must be used. Any of the [nerdfonts](https://www.nerdfonts.com) should do well.
    The `geometry` should be adjusted to fit your screen size and position preference.
+
 - Edit your `.cwmrc` reserving a gap and making cwm ignore termbar and show it in all groups:
 ```
 gap 40 0 0 0
 ignore termbar
 autogroup 0 termbar
 ```
+
 - Launch termbar automatically, putting the line below in `.xsession` or `.xinitrc` before the line that starts cwm. Substitute "youruser" with, well, your username:
 `xterm -name termbar -class termbar -e /home/youruser/bin/termbar &`
 
