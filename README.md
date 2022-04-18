@@ -5,9 +5,8 @@ Termbar is a status bar made only with a xterm window and a shell script. This p
 
 The termbar idea came, originally, from [Vetelko](https://github.com/vetelko/termbar), but this one have been grown off the great [implementation by Joel Carnat](https://www.tumfatig.net/2020/a-simple-shell-status-bar-for-openbsd-and-cwm1/) of [Gonzalo's](https://github.com/gonzalo-/termbar) version.
 
-[termbar screenshot](https://github.com/linfocito/termbar/raw/main/screenshot0.png)
-
-[termbar full screen screenshot](https://github.com/linfocito/termbar/raw/main/screenshot1.png)
+![termbar screenshot](./screenshot0.png)
+![termbar full screen screenshot](./screenshot1.png)
 
 ### Instructions:
 - Make the `termbar` script executable. The script uses native OpenBSD command to extract and format informations via functions. Then it loops into calling those functions, printing the whole result and pausing for 0.5s. The formatting should be adjusted to fit your screen size (the script here is tuned for a 1280x800 monitor) and the pause can be set to fit your preference.
@@ -15,8 +14,8 @@ The termbar idea came, originally, from [Vetelko](https://github.com/vetelko/ter
 - Put the code below in your `~/.Xresources` or `~/.Xdefaults`:
 ```
 termbar*faceName: GoMono Nerd Font:style=Book:size=9:antialias=1
-termbar*background: nord3
-termbar*foreground: nord4
+termbar*background: #4C566A
+termbar*foreground: #D8DEE9
 termbar*geometry: 179x1+8+6
 termbar*internalBorder: 5
 termbar*saveLines: 0
