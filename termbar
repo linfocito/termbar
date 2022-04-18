@@ -1,0 +1,120 @@
+#!/bin/ksh
+
+trap 'exec $0' HUP # Restart itself
+trap 'tput cnorm; exit 1' INT QUIT TERM
+
+set -A _bat "" "" ""
+set -A _pwr ""
+set -A _net "" "直"
+set -A _vol "奄" "奔" "墳"
+
+function bat {
+    [[ $(apm -a) -eq 1 ]] \
+        && echo -n "${_pwr[0]} " \
+            || echo -n "${_bat[$(apm -b)]} "
+    echo -n "$(apm -l)%"
+}
+
+function cal {
+    echo -n $(date '+%d/%m/%Y [%H:%M]')
+}
+
+function cpu {
+    echo -n " $(sysctl -n hw.sensors.acpithinkpad0.fan0 | cut -d ' ' -f 1)rpm "
+    echo -n " $(sysctl -n hw.sensors.cpu0.temp0 | cut -d '.' -f 1)°C"
+}
+
+function win {
+    # Records id of active window (if any) and the current group
+    _id_active=$(xprop -root _NET_ACTIVE_WINDOW | cut -d' ' -f 5)
+    _curr_grp=$(xprop -root _NET_CURRENT_DESKTOP | cut -d' ' -f 3)
+
+    # If there's an active window, record its name
+    if [[ -n ${_id_active} && ${_id_active} != "0x0" ]]
+    then
+        _name=$(xprop -id $_id_active WM_NAME \
+                    | cut -d\" -f 2 | cut -d@ -f 1 | cut -c 1-15)
+        _is_active=1
+    else
+        _name=""
+        _is_active=0
+    fi
+
+    # Traverses the list of windows and records how many windows are open in
+    # each group
+    _list=$(xprop -root _NET_CLIENT_LIST | cut -d\# -f 2 | cut -d, -f 1-)
+    set -A _groups 0 0 0 0 0 0 0 0 0 0
+    for n in $_list; do
+        _id_item=$(echo -n $n | cut -d, -f1)
+        _grp_item=$(xprop -id $_id_item _NET_WM_DESKTOP | cut -d' ' -f 3)
+        [[ $_grp_item -ge 1 && $_grp_item -le 9 ]] \
+                && _groups[$_grp_item]=$((${_groups[$_grp_item]} + 1))
+    done
+
+    # Constructs the view of active window in current group and how many windows
+    # are in each group
+    [[ ${_is_active} = 1 && ${_name} != "termbar" ]] \
+        && _groups[$_curr_grp]=$((${_groups[$_curr_grp]} - 1))
+    _grp=0
+    for x in ${_groups[@]}; do
+        if [[ ${_grp} = ${_curr_grp} ]]
+        then
+            [[ ${x} -gt 0 ]] && _plus="(+${x})"
+            _view="${_view}[${_grp}]类${_name} ${_plus}  "
+        else
+            [[ $_grp -gt 0 && $x -gt 0 ]] \
+                && _view="${_view}[${_grp}] ${x} "
+        fi
+        _grp=$(($_grp + 1))
+    done
+    echo -n ${_view}
+}
+
+function net {
+    _nic[0]=$(ifconfig | echo $(grep -B 3 "media: Ethernet") | cut -d: -f1)
+    _nic[1]=$(ifconfig | echo $(grep -B 4 "media: IEEE802") | cut -d: -f1)
+
+    [[ -z "$(ifconfig ${_nic[0]} | grep 'status: no carrier')" ]] \
+        && (echo -n ${_net[0]} ; return)
+
+    _quoted_id=$(ifconfig ${_nic[1]} | awk -F\" '/ieee80211:/ { print $2}' \
+              | cut -c 1-12)
+    _rest=$(ifconfig ${_nic[1]} | awk -F\" '/ieee80211:/ { print $3}')
+
+    if [[ -z ${_quoted_id} ]]
+    then
+        _id=$(ifconfig ${_nic[1]} \
+                  | awk '/ieee80211:/ { print $3 }' | cut -c 1-12)
+        _dbm=$(ifconfig ${_nic[1]} | awk '/ieee80211:/ { print $8 }')
+        echo -n "直${_id}(${_dbm})"
+    else
+        _dbm=$(echo "${_rest}" | awk '{ print $5 }')
+        echo -n "直${_quoted_id}(${_dbm})"
+    fi
+}
+
+function vol {
+    _v=$(sndioctl -n output.level | awk '{ print int($0*100) '})
+[[ $(sndioctl -n input.mute) -eq 1 ]] \
+    && echo -n " " \
+        || echo -n " "
+[[ $(sndioctl -n output.mute) -eq 1 ]] \
+    && echo -n "婢" \
+        || echo -n "${_vol[$(($_v*3/101))]}"
+echo -n "$_v%"
+}
+
+tput civis # Hide cursor
+
+while true; do
+    _l="$(win)"
+    _r="$(cpu) $(bat) $(net) $(vol) $(cal)"
+
+    tput cup 1 0
+    printf "%-107.107s\r" "$_l"
+    tput cup 1 102
+    printf "%88.88s" "$_r"
+    sleep 0.5
+done
+
+tput cnorm # Show cursor

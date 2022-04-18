@@ -1,0 +1,61 @@
+#!/bin/ksh
+
+trap 'exec $0' HUP # Restart itself
+trap 'tput cnorm; exit 1' INT QUIT TERM
+
+set -A _bat "" "" ""
+set -A _pwr ""
+set -A _net "" "直"
+set -A _nic "em0" "iwn0"
+set -A _vol "奄" "奔" "墳"
+
+function bat {
+    echo -n "${_pwr[0]} "
+    echo -n "100%"
+}
+
+function cal {
+    echo -n $(date '+%d/%m/%Y [%H:%M]')
+}
+
+function cpu {
+    echo -n " 9999 "
+    echo -n " 100°C"
+}
+
+function win {
+        echo -n "[1]类ppppppppppppppp(+10) "
+        echo -n "[2] 10 "
+        echo -n "[3] 10 "
+        echo -n "[4] 10 "
+        echo -n "[5] 10 "
+        echo -n "[6] 10 "
+        echo -n "[7] 10 "
+        echo -n "[8] 10 "
+        echo -n "[9] 10 "
+}
+
+function net {
+    echo -n "直ppppppppppp(-100dbm)"
+}
+
+function vol {
+    echo -n " "
+    echo -n "婢 "
+    echo -n "100%"
+}
+
+tput civis # Hide cursor
+
+while true; do
+    _l="$(win)"
+    _r="$(cpu) $(bat) $(net) $(vol) $(cal)"
+
+    tput cup 1 0
+    printf "%-107.107s\r" "$_l"
+    tput cup 1 102
+    printf "%88.88s" "$_r"
+    sleep 1
+done
+
+tput cnorm # Show cursor
