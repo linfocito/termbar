@@ -20,6 +20,7 @@ function cal {
 }
 
 function cpu {
+    echo -n " $(sysctl -n hw.setperf)% "
     echo -n " $(sysctl -n hw.sensors.acpithinkpad0.fan0 | cut -d ' ' -f 1)rpm "
     echo -n " $(sysctl -n hw.sensors.cpu0.temp0 | cut -d '.' -f 1)°C"
 }
@@ -111,9 +112,9 @@ while true; do
     _r="$(cpu) $(bat) $(net) $(vol) $(cal)"
 
     tput cup 1 0
-    printf "%-107.107s\r" "$_l"
-    tput cup 1 102
-    printf "%88.88s" "$_r"
+    printf "%-100.100s\r" "$_l"
+    tput cup 1 100
+    printf "%92.92s" "$_r"
     sleep 0.5
 done
 

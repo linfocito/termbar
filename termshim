@@ -19,6 +19,7 @@ function cal {
 }
 
 function cpu {
+    echo -n " 100% "
     echo -n " 9999 "
     echo -n " 100°C"
 }
@@ -49,12 +50,12 @@ tput civis # Hide cursor
 
 while true; do
     _l="$(win)"
-    _r="$(cpu) $(bat) $(net) $(vol) $(cal)"
+    _r="$(cpu)  $(bat)  $(net)  $(vol)  $(cal)"
 
     tput cup 1 0
-    printf "%-107.107s\r" "$_l"
-    tput cup 1 102
-    printf "%88.88s" "$_r"
+    printf "%-100.100s\r" "$_l"
+    tput cup 1 100
+    printf "%92.92s" "$_r"
     sleep 1
 done
 
