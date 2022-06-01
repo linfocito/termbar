@@ -22,7 +22,7 @@ The termbar idea came, originally, from [Vetelko][1], but this one is more direc
 ### Instructions:
 - Put the `termbar`script in a directory where you keep your personal scripts (e.g `~/bin`) and make it executable. The script uses native OpenBSD commands to extract and format informations via functions. Then it loops into calling those functions, printing the whole result and pausing for 0.5s. The formatting should be adjusted to fit your screen size (the script here is tuned for a 1280x800 monitor) and the pause can be set to fit your preference.
 
-- Put the code below in your `~/.Xresources` or `~/.Xdefaults`:
+- Put the example code below, edited to your tastes, in your `~/.Xresources` or `~/.Xdefaults`:
 ```
 termbar*faceName: GoMono Nerd Font:style=Book:size=9:antialias=1
 termbar*background: #4C566A
